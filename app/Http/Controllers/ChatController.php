@@ -67,15 +67,17 @@ class ChatController extends Controller
         $channelName = $request->get('channel', self::DEFAULT_CHAT_CHANNEL);
 
         $info = [
-            'text' => e($request->input('chat_text')),
-            'email' => $user->getAttribute('email'),
-            'timestamp' => (time()*1000)
+            'text'      =>  e($request->input('chat_text')),
+            'email'     =>  $user->getAttribute('email'),
+            'user_id'   =>  $user->getKey(),
+            'timestamp' =>  (time()*1000)
         ];
 
         app('pusher')->trigger($channelName, 'new-message', $info);
 
         $message = new Message;
         $message->text = $info['text'];
+        $message->user_id = $user->getKey();
 
         Channel::where('channel_name', $channelName)->first()->messages()->save($message);
 

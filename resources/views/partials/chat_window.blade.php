@@ -251,11 +251,11 @@
     <script>
         var Message;
         Message = function (arg) {
-            this.text = arg.text, this.email = arg.email;
+            this.text = arg.text, this.email = arg.email, this.user_id = arg.user_id;
             this.draw = function (_this) {
                 return function () {
                     var $message;
-                    var message_side = _this.email == '{{ auth()->user()->email }}' ? 'right' : 'left';
+                    var message_side = _this.user_id == '{{ auth()->user()->getKey() }}' ? 'right' : 'left';
                     $message = $($('.message_template').clone().html());
                     $message.addClass(message_side).find('.text').html(_this.text);
                     if (message_side == 'left') {
@@ -269,6 +269,11 @@
             }(this);
             return this;
         };
+
+        jQuery.each({!! $messages !!}, function ( i, message ) {
+
+            addMessage(message);
+        });
 
         (function () {
             $(function () {
@@ -307,7 +312,7 @@
 
         var pusher = new Pusher('{{env("PUSHER_KEY")}}');
 
-        console.log('subscribed', '{{$chatChannel}}');
+        {{--console.log('subscribed', '{{$chatChannel}}');--}}
         var channel = pusher.subscribe('{{$chatChannel}}');
         channel.bind('new-message', addMessage);
 
@@ -315,8 +320,9 @@
 
             var $messages = $('.messages');
             var message = new Message({
-                text: data.text,
-                email: data.email
+                text:       data.text,
+                user_id:    data.user_id,
+                email:      data.email
             });
             message.draw();
             return $messages.animate({ scrollTop: $messages.prop('scrollHeight') }, 300);
