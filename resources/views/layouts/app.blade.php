@@ -14,8 +14,9 @@
     <link href="/css/app.css" rel="stylesheet">
 
     @yield('styles')
+    @stack('styles')
 
-    <!-- Scripts -->
+<!-- Scripts -->
     <script>
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
@@ -87,5 +88,6 @@
     <script src="/js/app.js"></script>
 
     @yield('scripts')
+    @stack('scripts')
 </body>
 </html>
