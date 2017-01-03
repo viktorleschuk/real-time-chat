@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-@section('styles')
-
-@endsection
-
 @section('content')
 <div class="container">
     <div class="row">
@@ -17,12 +13,4 @@
         </div>
     </div>
 </div>
-@endsection
-
-@section('scripts')
-
-    <script>
-        alert('qwerty');
-    </script>
-
 @endsection
