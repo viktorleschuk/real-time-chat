@@ -270,10 +270,14 @@
             return this;
         };
 
-        jQuery.each({!! $messages !!}, function ( i, message ) {
+        @if (!empty($messages))
 
-            addMessage(message);
-        });
+            jQuery.each({!! $messages !!}, function ( i, message ) {
+
+                addMessage(message);
+            });
+
+        @endif
 
         (function () {
             $(function () {

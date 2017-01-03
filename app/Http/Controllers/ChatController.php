@@ -75,6 +75,11 @@ class ChatController extends Controller
 
         app('pusher')->trigger($channelName, 'new-message', $info);
 
+        if ($channelName == self::DEFAULT_CHAT_CHANNEL) {
+
+            return response()->json();
+        }
+
         $message = new Message;
         $message->text = $info['text'];
         $message->user_id = $user->getKey();
