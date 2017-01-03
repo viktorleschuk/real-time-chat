@@ -13,11 +13,14 @@
 
 Auth::routes();
 
+
+
 Route::group(['middleware'  => 'auth'], function() {
 
-    Route::get('/home', 'HomeController@index');
-
-    Route::resource('notifications', 'NotificationController');
-
     Route::resource('chat', 'ChatController');
+
+    Route::get('/im', [
+        'uses'  =>  'ChatController@index',
+        'as'    =>  'chat.im'
+    ]);
 });
