@@ -288,7 +288,10 @@
                         return;
                     }
 
-                    var data = {chat_text: text};
+                    var data = {
+                        chat_text: text,
+                        channel: '{{$chatChannel}}'
+                    };
                     $.post('{{ route('chat.store') }}', data).success(sendMessageSuccess);
                 };
                 $('.send_message').click(function (e) {
@@ -304,6 +307,7 @@
 
         var pusher = new Pusher('{{env("PUSHER_KEY")}}');
 
+        console.log('subscribed', '{{$chatChannel}}');
         var channel = pusher.subscribe('{{$chatChannel}}');
         channel.bind('new-message', addMessage);
 
